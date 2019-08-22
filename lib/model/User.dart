@@ -1,18 +1,17 @@
 import 'dart:convert' show json;
 
 class User {
-  String content;
+  String date;
   String title;
   String e_id;
-  User(this.content,this.title);
+  User(this.date,this.title,this.e_id);
   User.fromJson(Map<String,dynamic> json):
-        content = json['content'],
+        date = json['date'],
         e_id = json['e_id'],
         title = json['title'];
   Map<String,dynamic> toJson() =>{
-    'content':content,
+    'date':date,
     'e_id':e_id,
     'title':title,
   };
-
 }

@@ -23,21 +23,20 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
 
     return new MaterialApp(
-      title: '首页',
+      title: '历史上的今天',
       home: new Scaffold(
         appBar: new AppBar(
-          title: new Text('首页'),
+          title: new Text('历史上的今天'),
         ),
         body: ListView.builder(
             itemCount: listA.length,
             itemBuilder: (context,index){
               Divider();
           return ListTile(
-              title: Text(listA[index].title??''),
+              title: Text('${listA[index].date}\n${listA[index].title}'),
               leading: new Icon(Icons.account_balance),
                onTap:(){
-                  Navigator.push(
-                      context,
+                  Navigator.of(context,rootNavigator: true).push(
                       MaterialPageRoute(
                           builder:(context)=> DetailPage(e_id:listA[index].e_id,)
                       )
