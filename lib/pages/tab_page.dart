@@ -47,18 +47,18 @@ class TabPageState extends State<TabPage> with TickerProviderStateMixin {
               controller: controller,
               tabs: <Widget>[
                 TabBarItem(
-                  text: "首页",
+                  text: "历史",
                   icon: Icons.home,
                   selected: selectedIndex == 0,
                 ),
                 TabBarItem(
-                  text: "排行",
-                  icon: Icons.local_play,
+                  text: "推荐",
+                  icon: Icons.ondemand_video,
                   selected: selectedIndex == 1,
                 ),
                 TabBarItem(
-                  text: "片库",
-                  icon: Icons.ondemand_video,
+                  text: "笑话",
+                  icon: Icons.local_play,
                   selected: selectedIndex == 2,
                 ),
                 TabBarItem(

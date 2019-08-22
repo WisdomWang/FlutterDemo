@@ -9,7 +9,7 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
 
   List<User> listA = [];
   var today = DateTime.now();
@@ -30,25 +30,34 @@ class _HomePageState extends State<HomePage> {
         ),
         body: ListView.builder(
             itemCount: listA.length,
-            itemBuilder: (context,index){
-              Divider();
-          return ListTile(
-              title: Text('${listA[index].date}\n${listA[index].title}'),
-              leading: new Icon(Icons.account_balance),
-               onTap:(){
-                  Navigator.of(context,rootNavigator: true).push(
-                      MaterialPageRoute(
-                          builder:(context)=> DetailPage(e_id:listA[index].e_id,)
-                      )
-                  );}
-          );
-
-        }
+            shrinkWrap: true,
+            physics: BouncingScrollPhysics(),
+            itemBuilder: (context,index)=>itemDividerRow(context, index)
         )
       ),
     );
   }
 
+  itemDividerRow(context, int index) {
+    if (index.isOdd) {//是奇数
+      return new Divider( //返回分割线
+        height: 2.0,
+        color: Colors.black54,
+      );
+    } else {
+      index = index ~/ 2;
+      return ListTile(
+          title: Text('${listA[index].date}\n${listA[index].title}'),
+          trailing :new Icon(Icons.arrow_forward_ios,color: Colors.black54),
+          onTap:(){
+            Navigator.of(context,rootNavigator: true).push(
+                MaterialPageRoute(
+                    builder:(context)=> DetailPage(e_id:listA[index].e_id,)
+                )
+            );}
+      );  //返回item 布局
+    }
+  }
   void getHttp() async {
     try {
       print('${today.month}/${today.day}');
@@ -65,4 +74,8 @@ class _HomePageState extends State<HomePage> {
       print(e);
     }
   }
+
+  @override
+  bool get wantKeepAlive => true;
+
 }

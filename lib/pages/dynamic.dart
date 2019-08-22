@@ -5,7 +5,7 @@ class DynamicPage extends StatefulWidget {
   _DynamicPageState createState() => _DynamicPageState();
 }
 
-class _DynamicPageState extends State<DynamicPage> {
+class _DynamicPageState extends State<DynamicPage> with AutomaticKeepAliveClientMixin {
 
   @override
   void initState() {
@@ -21,9 +21,13 @@ class _DynamicPageState extends State<DynamicPage> {
           title: new Text('动态'),
         ),
         body: new Center(
-          child: new Text('Hello World'),
+          child: new Text('这是一个简单的flutterDemo\n大家一起学习进步～～'),
         ),
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
+
 }
