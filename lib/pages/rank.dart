@@ -65,8 +65,7 @@ class VideoGridView extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(8.0),
       child: GridView.builder(
-        physics: ClampingScrollPhysics(),
-        shrinkWrap: true,
+        physics: BouncingScrollPhysics(),
         itemCount: resources.length,
         itemBuilder: (context, index) {
           return VideoGridItem(resource: resources[index],);

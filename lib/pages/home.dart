@@ -30,7 +30,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
         ),
         body: ListView.builder(
             itemCount: listA.length,
-            shrinkWrap: true,
             physics: BouncingScrollPhysics(),
             itemBuilder: (context,index)=>itemDividerRow(context, index)
         )
@@ -47,7 +46,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
     } else {
       index = index ~/ 2;
       return ListTile(
-          title: Text('${listA[index].date}\n${listA[index].title}'),
+          title: Text(listA[index].date),
+          subtitle: Text(listA[index].title),
           trailing :new Icon(Icons.arrow_forward_ios,color: Colors.black54),
           onTap:(){
             Navigator.of(context,rootNavigator: true).push(

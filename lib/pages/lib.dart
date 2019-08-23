@@ -13,6 +13,8 @@ class _LibPageState extends State<LibPage> with AutomaticKeepAliveClientMixin {
   List<Joke> listA = [];
 
   ScrollController _scrollController = new ScrollController();
+
+  var date = DateTime.now().millisecondsSinceEpoch/1000;
   
   int page = 1;
 
@@ -37,13 +39,14 @@ class _LibPageState extends State<LibPage> with AutomaticKeepAliveClientMixin {
         appBar: new AppBar(
           title: new Text('笑话大全'),
         ),
-        body:ListView.builder(
-            itemCount: listA.length,
-            shrinkWrap: true,
-            physics: BouncingScrollPhysics(),
-            itemBuilder: (context,index)=>itemDividerRow(context, index),
-            controller: _scrollController
-        )
+        body:RefreshIndicator(
+            child: ListView.builder(
+                itemCount: listA.length,
+                physics: BouncingScrollPhysics(),
+                itemBuilder: (context,index)=>itemDividerRow(context, index),
+                controller: _scrollController
+            ),
+            onRefresh: _onRefresh)
       ),
     );
   }
@@ -64,11 +67,20 @@ class _LibPageState extends State<LibPage> with AutomaticKeepAliveClientMixin {
     }
   }
 
+  Future<Null> _onRefresh() async {
+
+    page = 1;
+    listA.clear();
+    getHttp(page);
+  }
+
   void getHttp(int page) async {
-    
+
+    //取整
+    int time = date~/1;
     try {
       Response response = await Dio().get(
-          "http://v.juhe.cn/joke/content/list.php?key=ecb844e43f5a0381671f74ac66f1c125&page=$page&pagesize=20&sort=asc&time=1546272000");
+          "http://v.juhe.cn/joke/content/list.php?key=ecb844e43f5a0381671f74ac66f1c125&page=$page&pagesize=20&sort=desc&time=$time");
       print(response);
       List map = json.decode(response.toString())['result']['data'];
       List<Joke> list = [];
@@ -82,6 +94,12 @@ class _LibPageState extends State<LibPage> with AutomaticKeepAliveClientMixin {
   }
 
   @override
-  bool get wantKeepAlive => true;
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _scrollController.dispose();
+  }
 
+  @override
+  bool get wantKeepAlive => true;
 }
